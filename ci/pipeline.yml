@@ -8,7 +8,7 @@ resources:
     secret_access_key: ((s3-secret-access-key))
     endpoint: ((s3-endpoint))
     bucket: ((s3-bucket))
-    regexp: "((s3-repo-dir))/maven/maven-(.*).tgz"
+    regexp: "maven/maven-(.*).tgz"
 
 # Project's source code
 - name: source-code-repo

@@ -5,9 +5,7 @@ set -e -u -x
 M2_HOME=${HOME}/.m2
 mkdir -p ${M2_HOME}
  
-M2_LOCAL_REPO="${ROOT_FOLDER}/.m2"
- 
-mkdir -p "${M2_LOCAL_REPO}/repository"
+mkdir -p "${M2_HOME}/repository"
  
 cat > ${M2_HOME}/settings.xml <<EOF
  
