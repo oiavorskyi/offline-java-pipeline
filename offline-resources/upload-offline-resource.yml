@@ -9,10 +9,10 @@ resources:
 - name: target-image-s3
   type: s3
   source:
-    access_key_id: ((s3_access_key_id))
-    bucket: ((s3_bucket))
-    endpoint: ((s3_endpoint))
-    secret_access_key: ((s3_secret_access_key))
+    access_key_id: ((s3-access-key-id))
+    bucket: ((s3-bucket))
+    endpoint: ((s3-endpoint))
+    secret_access_key: ((s3-secret-access-key))
     regexp: ((image-name))/((image-name))-(.*).tgz
 
 jobs:

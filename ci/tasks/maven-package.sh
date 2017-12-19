@@ -83,6 +83,6 @@ EOF
 
 cat ${M2_HOME}/settings.xml
 
-cd source
+cd source-code-repo
 mvn package
-mv target/*.war ../output/
+mv target/*.jar ../output/

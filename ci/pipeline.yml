@@ -4,18 +4,18 @@ resources:
 - name: maven-docker-image
   type: s3
   source:
-    access_key_id: ((s3_access_key_id))
-    secret_access_key: ((s3_secret_access_key))
-    endpoint: ((s3_endpoint))
-    bucket: ((s3_bucket))
-    regexp: "((s3_repo_dir))/maven/maven-(.*).tgz"
+    access_key_id: ((s3-access-key-id))
+    secret_access_key: ((s3-secret-access-key))
+    endpoint: ((s3-endpoint))
+    bucket: ((s3-bucket))
+    regexp: "((s3-repo-dir))/maven/maven-(.*).tgz"
 
 # Project's source code
 - name: source-code-repo
   type: git
   source:
-    uri: ((git_source_repo))
-    branch: ((git_source_branch))
+    uri: ((git-source-repo))
+    branch: ((git-source-branch))
 
 # PCF instance to deploy application to
 - name: deployment-target
@@ -28,9 +28,9 @@ resources:
     space: ((api-space))
     skip_cert_check: true
 
-# Job to unit test the application
+# Job to unit test, package and deploy the application
 jobs:
-- name: deploy-pws
+- name: build-and-deploy-to-cf
   plan:
   - aggregate:
     - get: source-code-repo
@@ -61,4 +61,4 @@ jobs:
   - put: deployment-target
     params:
       manifest: source-code-repo/manifest.yml
-      path: output/spring-music.war
+      path: output/((artifact-name))-*.jar
