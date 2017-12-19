@@ -85,4 +85,4 @@ cat ${M2_HOME}/settings.xml
 
 cd source-code-repo
 mvn package
-mv target/*.jar ../output/
+mv target/${ARTIFACT_NAME}-*.${ARTIFACT_PACKAGING} ../output/${ARTIFACT_NAME}.${ARTIFACT_PACKAGING}

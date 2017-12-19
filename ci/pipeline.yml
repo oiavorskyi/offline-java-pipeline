@@ -54,6 +54,8 @@ jobs:
         PLUGIN_SNAPSHOT_REPO: ((plugin-snapshot-repo))
         REPO_USER: ((repo-user))
         REPO_PASSWORD: ((repo-password))
+        ARTIFACT_NAME: ((artifact-name))
+        ARTIFACT_PACKAGING: ((artifact-packaging))
       run:
         path: sh
         args:
@@ -61,4 +63,4 @@ jobs:
   - put: deployment-target
     params:
       manifest: source-code-repo/manifest.yml
-      path: output/((artifact-name))-*.jar
+      path: output/((artifact-name)).((artifact-packaging))
