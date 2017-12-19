@@ -15,13 +15,13 @@ cat > ${M2_HOME}/settings.xml <<EOF
                           https://maven.apache.org/xsd/settings-1.0.0.xsd">
       <servers>
       <server>
-            <username>${env.REPO_USER}</username>
-            <password>${env.REPO_PASSWORD}</password>
+            <username>\${env.REPO_USER}</username>
+            <password>\${env.REPO_PASSWORD}</password>
             <id>release</id>
       </server>
       <server>
-            <username>${env.REPO_USER}</username>
-            <password>${env.REPO_PASSWORD}</password>
+            <username>\${env.REPO_USER}</username>
+            <password>\${env.REPO_PASSWORD}</password>
             <id>snapshots</id>
       </server>
       </servers>
@@ -29,7 +29,7 @@ cat > ${M2_HOME}/settings.xml <<EOF
       <mirror>
             <mirrorOf>central</mirrorOf>
             <name>Central Mirror</name>
-            <url>${env.MIRROR_REPO}</url>
+            <url>\${env.MIRROR_REPO}</url>
             <id>release</id>
       </mirror>
       </mirrors>
@@ -42,13 +42,13 @@ cat > ${M2_HOME}/settings.xml <<EOF
             </snapshots>
             <id>release</id>
             <name>libs-release</name>
-            <url>${env.RELEASE_REPO}</url>
+            <url>\${env.RELEASE_REPO}</url>
             </repository>
             <repository>
             <snapshots />
             <id>snapshots</id>
             <name>libs-snapshot</name>
-            <url>${env.SNAPSHOT_REPO}</url>
+            <url>\${env.SNAPSHOT_REPO}</url>
             </repository>
             </repositories>
             <pluginRepositories>
@@ -58,13 +58,13 @@ cat > ${M2_HOME}/settings.xml <<EOF
             </snapshots>
             <id>release</id>
             <name>plugins-release</name>
-            <url>${env.PLUGIN_RELEASE_REPO}</url>
+            <url>\${env.PLUGIN_RELEASE_REPO}</url>
             </pluginRepository>
             <pluginRepository>
             <snapshots />
             <id>snapshots</id>
             <name>plugins-release</name>
-            <url>${env.PLUGIN_SNAPSHOT_REPO}</url>
+            <url>\${env.PLUGIN_SNAPSHOT_REPO}</url>
             </pluginRepository>
             </pluginRepositories>
             <id>artifactory</id>
