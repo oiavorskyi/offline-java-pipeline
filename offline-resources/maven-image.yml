@@ -1,0 +1,8 @@
+# Defines name of the image from Docker Hub to upload to S3
+image-docker-repo: maven
+# Defines which tag to use to pull image from Docker Hub
+image-tag: 3.5-jdk-8-alpine
+# Defines name and version of the image file when it is uploaded to S3
+# It will be stored under <image-name>/<image-name>-<image-version>.tgz
+image-name: maven
+image-version: "1.0" # Shall be a string, so make sure to put value in quotes 

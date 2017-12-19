@@ -1,0 +1,64 @@
+resources:
+
+# Source of the Docker image that builds Java projects with Maven
+- name: maven-docker-image
+  type: s3
+  source:
+    access_key_id: ((s3_access_key_id))
+    secret_access_key: ((s3_secret_access_key))
+    endpoint: ((s3_endpoint))
+    bucket: ((s3_bucket))
+    regexp: "((s3_repo_dir))/maven/maven-(.*).tgz"
+
+# Project's source code
+- name: source-code-repo
+  type: git
+  source:
+    uri: ((git_source_repo))
+    branch: ((git_source_branch))
+
+# PCF instance to deploy application to
+- name: deployment-target
+  type: cf
+  source:
+    api: ((api-endpoint))
+    username: ((api-username))
+    password: ((api-password))
+    organization: ((api-org))
+    space: ((api-space))
+    skip_cert_check: true
+
+# Job to unit test the application
+jobs:
+- name: deploy-pws
+  plan:
+  - aggregate:
+    - get: source-code-repo
+      trigger: true
+    - get: maven-docker-image
+      params:
+        unpack: true
+  - task: maven-package
+    image: maven-docker-image
+    config:
+      platform: linux
+      inputs:
+        - name: source-code-repo
+      outputs:
+        - name: output
+      params:
+        MIRROR_REPO: ((mirror-repo))
+        RELEASE_REPO: ((release-repo))
+        SNAPSHOT_REPO: ((snapshot-repo))
+        PLUGIN_RELEASE_REPO: ((plugin-release-repo))
+        PLUGIN_SNAPSHOT_REPO: ((plugin-snapshot-repo))
+        REPO_USER: ((repo-user))
+        REPO_PASSWORD: ((repo-password))
+      run:
+        path: sh
+        args:
+          - source-code-repo/ci/tasks/maven-package.sh
+  - put: deployment-target
+    params:
+      manifest: source-code-repo/manifest.yml
+      path: output/spring-music.war

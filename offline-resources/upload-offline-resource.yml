@@ -1,0 +1,55 @@
+---
+resources:
+- name: image-to-package
+  type: docker-image
+  source:
+    repository: ((image-docker-repo))
+    tag: ((image-tag))
+
+- name: target-image-s3
+  type: s3
+  source:
+    access_key_id: ((s3_access_key_id))
+    bucket: ((s3_bucket))
+    endpoint: ((s3_endpoint))
+    secret_access_key: ((s3_secret_access_key))
+    regexp: ((image-name))/((image-name))-(.*).tgz
+
+jobs:
+- name: download-and-package-image
+  plan:
+  - get: image-to-package
+    params:
+      rootfs: true
+  - task: prepare-image-to-export
+    config:
+      platform: linux
+      inputs:
+        - name: image-to-package
+      outputs:
+        - name: ((image-name)) 
+      image_resource:
+        type: docker-image
+        source:
+          repository: alpine
+      params:
+        image_name: ((image-name))
+        image_version: ((image-version))
+      run:
+        path: sh
+        args:
+        - -exc
+        - |
+          echo "Exporting $image_name image"
+          mkdir export-directory && cd export-directory
+          cp ../image-to-package/metadata.json .
+          mkdir rootfs
+          tar -xf ../image-to-package/rootfs.tar -C ./rootfs/ --exclude="dev/*"
+          cd rootfs
+          cd ../..
+          echo "Packaging $image_name image"
+          tar -czf "${image_name}/${image_name}-${image_version}.tgz" -C export-directory .
+          ls -la ${image_name}
+  - put: target-image-s3
+    params:
+      file: "((image-name))/((image-name))-*.tgz"
