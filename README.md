@@ -1,4 +1,4 @@
-# Setting up and running Concourse pipelines for Java apps in air-gapper environments
+# Setting up and running Concourse pipelines for Java apps in air-gapped environments
 
 When a Concourse pipeline is running in an air-gapped environment it only has access to built-in resource and task images such as `git`, `cf` or `s3`. Access to images in public repositories such as Docker Hub is prohibited. As a result, pipelines that rely on such images require a workaround. 
 
