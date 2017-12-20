@@ -39,3 +39,7 @@ Last, define the artifact name and packaging based on the `pom.xml` of the proje
 fly -t ci-target set-pipeline -c ci/pipeline.yml -p sample-pipeline -l <Path to credentials.yml>
 fly -t ci-target unpause-pipeline -p sample-pipeline
 ```
+
+## To create a pipeline for a new application
+
+For an application with a similar structure and simple build pipeline it is enough to copy `ci` folder to the root folder of the application's repo and create dedicated `credentials.yml`. Please don't forget to add `credentials.yml` to your `.gitignore` file to avoid its accidential pulbishing to the repo.
